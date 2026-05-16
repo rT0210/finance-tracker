@@ -17,7 +17,7 @@ const RecentTransactions = () => {
         <h2 className="text-lg font-semibold text-gray-700">
           ПОСЛЕДНИЕ ОПЕРАЦИИ
         </h2>
-        <Link to={""} className="text-sm text-blue-600 hover:underline">
+        <Link to={"transactions"} className="text-sm text-blue-600 hover:underline">
           Все операции
         </Link>
       </div>

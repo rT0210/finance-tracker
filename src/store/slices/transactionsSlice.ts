@@ -1,6 +1,6 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
-type Transaction = {
+export type Transaction = {
   id: number;
   description: string;
   amount: number;
@@ -33,5 +33,5 @@ export const TransactionSlice = createSlice({
     }
 })
 
-export const {addTransaction, delTransaction} = TransactionSlice.actions
+export const {addTransaction, delTransaction, updateTransaction} = TransactionSlice.actions
 export default TransactionSlice.reducer
