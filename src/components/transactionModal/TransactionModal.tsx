@@ -14,6 +14,7 @@ type currentTransactionType = {
   category: string;
   type: "Доход" | "Расход";
   typeTransaction: "change" | "remove" | "add";
+  unchangeableAction?: true
 };
 
 type PropsType = {
@@ -77,7 +78,7 @@ const TransactionModal = ({ closeModal, currentTransaction }: PropsType) => {
               }
             }}
             value={type}
-            disabled={currentTransaction.typeTransaction === "remove"}
+            disabled={currentTransaction.typeTransaction === "remove" || currentTransaction.unchangeableAction}
           >
             <option value="" disabled>
               выберите тип

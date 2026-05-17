@@ -1,13 +1,41 @@
+import { useSelector } from "react-redux";
 import { formatAmount } from "../../utils/formatAmount";
+import type { RootState } from "../../store/store";
 
-const categories = [
-  { name: "Еда", percent: 45, amount: -12000 },
-  { name: "Транспорт", percent: 20, amount: -5000 },
-  { name: "Кафе", percent: 20, amount: -5000 },
-  { name: "Развлечения", percent: 15, amount: -3500 },
-];
 
 const ExpensesByCategory = () => {
+  const transactions = useSelector(
+    (state: RootState) => state.transaction.transactions,
+  );
+
+  const current = new Date().toISOString().slice(0, 7);
+  
+
+
+  const filterTransaction = () => {
+    return transactions
+      .filter((transaction) => transaction.date.startsWith(current))
+      .filter((transaction) => transaction.amount < 0);
+  };
+
+  const transactionCategory: Record<string, number> = {};
+
+  filterTransaction().forEach((transaction) => {
+    if (transactionCategory[transaction.category]) {
+      transactionCategory[transaction.category] += transaction.amount;
+    } else {
+      transactionCategory[transaction.category] = transaction.amount;
+    }
+  });
+
+  const totalExpense = Object.values(transactionCategory).reduce((acc, value) => acc + value, 0)
+
+  const expenseByCategory = Object.entries(transactionCategory).map(([name, amount]) => ({
+    name,
+    amount,
+    percent: Math.round((amount / totalExpense) * 100)
+  })).sort((a, b) => b.percent - a.percent)
+
   return (
     <div className="rounded-lg shadow-lg p-4 bg-white mb-4">
       <div className="flex justify-between items-center mb-4">
@@ -19,7 +47,7 @@ const ExpensesByCategory = () => {
         </button>
       </div>
       <ul>
-        {categories.map((category) => (
+        {expenseByCategory.length !== 0 ? expenseByCategory.map((category) => (
           <li
             key={category.name}
             className="flex justify-between items-center py-2 border-b last:border-0"
@@ -38,7 +66,7 @@ const ExpensesByCategory = () => {
               {formatAmount(category.amount)}
             </p>
           </li>
-        ))}
+        )) : <li>Расходы отсутствуют...</li>}
       </ul>
     </div>
   );

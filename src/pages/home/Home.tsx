@@ -16,5 +16,3 @@ const Home = () => {
   );
 };
 export default Home;
-
-/* onClick={() => dispatch(addTransaction({id: Date.now(), description: "test", amount: 10, date: new Date(), category: "еда"}))} */
