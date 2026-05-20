@@ -6,6 +6,11 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
+  LineChart,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  Line,
 } from "recharts";
 import type { RootState } from "../../store/store";
 import { formatAmount } from "../../utils/formatAmount";
@@ -33,6 +38,28 @@ const Analytics = () => {
       .filter((transaction) => transaction.date.startsWith(currentDate))
       .filter((transaction) => transaction.amount < 0);
   };
+  const diagramData = (() => {
+    const resultObj: Record<string, number> = {};
+    const currentDate = new Date();
+    currentDate.setMonth(currentDate.getMonth() - 6);
+    transactions
+      .filter(
+        (transaction) =>
+          new Date(transaction.date) >= currentDate && transaction.amount < 0,
+      )
+      .forEach((item) => {
+        if (resultObj[item.date.slice(0, 7)]) {
+          resultObj[item.date.slice(0, 7)] += item.amount;
+        } else {
+          resultObj[item.date.slice(0, 7)] = item.amount;
+        }
+      })
+
+    return Object.entries(resultObj).map(([key, value]) => ({
+      month: new Date(key + "-01").toLocaleString("ru-RU", { month: "short" }),
+      amount: Math.abs(value),
+    }));
+  })()
   const transactionCategory: Record<string, number> = {};
   filterTransaction().forEach((transaction) => {
     if (transactionCategory[transaction.category]) {
@@ -47,7 +74,7 @@ const Analytics = () => {
       amount: Math.abs(amount),
     }),
   );
-  console.log(data);
+  
   const totalExpense = data.reduce((acc, value) => acc + value.amount, 0);
 
   return (
@@ -83,6 +110,26 @@ const Analytics = () => {
             <Legend />
           </PieChart>
         </ResponsiveContainer>
+        <div className="mt-8">
+          <h3 className="text-lg font-semibold text-gray-700 mb-4 text-center">
+            Динамика расходов по месяцам
+          </h3>
+          {diagramData.length === 0 ? (
+            <p className="text-center text-gray-500">
+              Недостаточно данных для графика
+            </p>
+          ) : (
+            <ResponsiveContainer width="100%" height={300}>
+              <LineChart data={diagramData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="month" />
+                <YAxis />
+                <Tooltip formatter={(value) => formatAmount(Number(value))} />
+                <Line type="monotone" dataKey="amount" stroke="#8884d8" />
+              </LineChart>
+            </ResponsiveContainer>
+          )}
+        </div>
       </div>
     </div>
   );
