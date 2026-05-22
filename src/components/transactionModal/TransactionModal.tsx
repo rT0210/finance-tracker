@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   addTransaction,
   delTransaction,
   updateTransaction,
 } from "../../store/slices/transactionsSlice";
+import type { RootState } from "../../store/store";
 
 type currentTransactionType = {
   id: number;
@@ -35,7 +36,10 @@ const TransactionModal = ({ closeModal, currentTransaction }: PropsType) => {
   const [inputCategory, setInputCategory] = useState(newTransaction.category);
   const [inputDate, setInputDate] = useState(newTransaction.date);
   const [type, setType] = useState(newTransaction.type);
+  const categories = useSelector((state: RootState) => state.categories.categories)
   const dispatch = useDispatch();
+
+  console.log(categories)
 
   const isValid =
   inputAmount !== "" &&
@@ -112,12 +116,9 @@ const TransactionModal = ({ closeModal, currentTransaction }: PropsType) => {
           <option value="" disabled>
             выберите категорию
           </option>
-          <option value="Еда">Еда</option>
-          <option value="Транспорт">Транспорт</option>
-          <option value="Кафе">Кафе</option>
-          <option value="Развлечения">Развлечения</option>
-          <option value="Зарплата">Зарплата</option>
-          <option value="Другое">Другое</option>
+          {categories.map((category) => (
+            <option key={category.name}>{category.name}</option>
+          ))}
         </select>
         <input
           type="date"
