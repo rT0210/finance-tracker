@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import Logo from "../logo/Logo";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../store/store";
+import { formatAmount } from './../../utils/formatAmount';
 
 const Header = () => {
   const transactions = useSelector((state: RootState) => state.transaction.transactions)
@@ -13,17 +14,17 @@ const Header = () => {
         <nav>
           <ul className="flex gap-2">
             <li>
-              <Link to={""}>Главная</Link>
+              <Link to={"/"}>Главная</Link>
             </li>
             <li>
-              <Link to={""}>Операции</Link>
+              <Link to={"/transactions"}>Операции</Link>
             </li>
             <li>
-              <Link to={""}>Аналитика</Link>
+              <Link to={"/analytics"}>Аналитика</Link>
             </li>
           </ul>
         </nav>
-        <p>Баланс: [{totalBalance}]</p>
+        <p>Баланс: {formatAmount(totalBalance)}</p>
       </div>
     </header>
   );

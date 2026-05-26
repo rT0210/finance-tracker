@@ -5,7 +5,7 @@ const Footer = () => {
         <footer className="bg-gray-300 px-4">
             <div className="max-w-7xl mx-auto flex h-10 items-center justify-between">
                 <nav>
-                    <ul className="flex gap-4">
+                    <ul className="flex gap-4 text-[10px] md:text-[16px]">
                         <li>
                             <Link to={""}>GitHUb</Link>
                         </li>
@@ -19,7 +19,7 @@ const Footer = () => {
                         </li>
                     </ul>
                 </nav>
-                <p>© 2026 FinTrack</p>
+                <p className="text-[10px] md:text-[16px]">© 2026 FinTrack</p>
             </div>
         </footer>
     )

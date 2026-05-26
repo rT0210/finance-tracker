@@ -11,7 +11,7 @@ const QuickActions = () => {
       <h2 className="text-lg font-semibold text-gray-700 mb-4">
         БЫСТРЫЕ ДЕЙСТВИЯ
       </h2>
-      <div className="flex mb-4 justify-between">
+      <div className="flex flex-col gap-4 md:gap-0 md:flex-row mb-4 justify-between">
         <button
           className="bg-white border border-gray-300 shadow-sm rounded-lg py-2 px-4 font-medium text-gray-700 hover:bg-gray-50"
           onClick={() => {

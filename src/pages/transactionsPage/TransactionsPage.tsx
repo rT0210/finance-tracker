@@ -5,6 +5,7 @@ import { formatDate } from "../../utils/formatDate";
 import { useMemo, useState } from "react";
 import type { Transaction } from "../../store/slices/transactionsSlice";
 import TransactionModal from "../../components/transactionModal/TransactionModal";
+import TransactionCard from "../../components/transactionCard/TransactionCard";
 
 const TransactionsPage = () => {
   const transactions = useSelector(
@@ -38,21 +39,23 @@ const TransactionsPage = () => {
   }, [transactions, filter, searchTransaction]);
 
   const closeModal = () => setIsShowModal(false);
-
+  console.log(filteredTransactions)
   return (
     <div>
       <div className="max-w-7xl mx-auto px-4">
-        <div className="flex justify-between items-center mb-4 pt-4">
-          <h2 className="text-2xl font-bold text-gray-800">Все операции</h2>
+        <div className="flex gap-4 md:flex-row md:gap-0 items-start justify-between md:items-center mb-4 pt-4">
+          <h2 className="text-[16px] md:text-[2xl] font-bold text-gray-800">
+            Все операции
+          </h2>
           <input
             type="text"
             placeholder="поиск по описанию..."
             value={searchTransaction}
-            className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 hidden md:flex"
             onChange={(e) => setSearchTransaction(e.target.value)}
           />
           <button
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-200 flex items-center gap-1 shadow-sm"
+            className="px-4 py-2 bg-blue-600 text-[12px] md:text-[16px] text-white rounded-lg hover:bg-blue-700 transition duration-200 flex items-center gap-1 shadow-sm"
             onClick={() => {
               setIsShowModal(true);
               setCurrentTransaction({
@@ -68,7 +71,7 @@ const TransactionsPage = () => {
             Добавить транзакцию
           </button>
         </div>
-        <div className="flex gap-2 mb-4">
+        <div className="flex gap-2 mb-4 justify-start">
           <button
             className={`px-4 py-2 rounded-lg ${filter === "all" ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-800"} text-gray-800 hover:bg-gray-300 transition`}
             onClick={() => setFilter("all")}
@@ -88,23 +91,27 @@ const TransactionsPage = () => {
             Расходы
           </button>
         </div>
-        <div className="bg-white rounded-lg shadow overflow-hidden">
+        <div className="bg-white rounded-lg shadow overflow-hidden hidden md:block">
           <table className="min-w-full">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">
+                <th className="px-2 md:px-4 py-1 md:py-3 text-left text-[10px] md:text-sm font-semibold text-gray-600">
+                  {" "}
                   Описание
                 </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">
+                <th className="px-2 md:px-4 py-1 md:py-3 text-left text-[10px] md:text-sm font-semibold text-gray-600">
+                  {" "}
                   Сумма
                 </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">
+                <th className="px-2 md:px-4 py-1 md:py-3 text-left text-[10px] md:text-sm font-semibold text-gray-600">
                   Категория
                 </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">
+                <th className="px-2 md:px-4 py-1 md:py-3 text-left text-[10px] md:text-sm font-semibold text-gray-600">
+                  {" "}
                   Дата
                 </th>
-                <th className="px-4 py-3 text-left text-sm font-semibold text-gray-600">
+                <th className="px-2 md:px-4 py-1 md:py-3 text-left text-[10px] md:text-sm font-semibold text-gray-600">
+                  {" "}
                   Действия
                 </th>
               </tr>
@@ -159,6 +166,13 @@ const TransactionsPage = () => {
               )}
             </tbody>
           </table>
+        </div>
+        <div className="flex md:hidden">
+          <ul className="w-full">
+            {filteredTransactions.length !== 0 ? filteredTransactions.map((tr) => (
+              <li><TransactionCard description={tr.description} amount={tr.amount} date={tr.date} category={tr.category}/></li>
+            )) : <li>Пока не добавлено ни одной транзакции</li>}
+          </ul>
         </div>
         {isShowModal && currentTransaction && (
           <TransactionModal
