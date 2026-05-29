@@ -5,6 +5,8 @@ type PropsType = {
   amount: number;
   category: string;
   date: string;
+  onEdit: () => void;
+  onDelete: () => void
 };
 
 const TransactionCard = ({
@@ -12,6 +14,8 @@ const TransactionCard = ({
   amount,
   category,
   date,
+  onEdit,
+  onDelete
 }: PropsType) => {
   return (
     <div className="bg-white rounded-xl shadow-md p-4 border border-gray-100 transition hover:shadow-lg">
@@ -24,8 +28,8 @@ const TransactionCard = ({
   <p className="text-gray-500 text-sm mt-1">{category}</p>
   <p className="text-gray-400 text-xs mt-1">{date}</p>
   <div className="flex justify-end gap-3 mt-3">
-    <button className="text-blue-500 text-sm hover:underline">Редактировать</button>
-    <button className="text-red-500 text-sm hover:underline">Удалить</button>
+    <button className="text-blue-500 text-sm hover:underline" onClick={onEdit}>Редактировать</button>
+    <button className="text-red-500 text-sm hover:underline" onClick={onDelete}>Удалить</button>
   </div>
 </div>
   );

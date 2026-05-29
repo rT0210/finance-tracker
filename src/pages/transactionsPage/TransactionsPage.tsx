@@ -39,7 +39,7 @@ const TransactionsPage = () => {
   }, [transactions, filter, searchTransaction]);
 
   const closeModal = () => setIsShowModal(false);
-  console.log(filteredTransactions)
+
   return (
     <div>
       <div className="max-w-7xl mx-auto px-4">
@@ -169,9 +169,30 @@ const TransactionsPage = () => {
         </div>
         <div className="flex md:hidden">
           <ul className="w-full">
-            {filteredTransactions.length !== 0 ? filteredTransactions.map((tr) => (
-              <li><TransactionCard description={tr.description} amount={tr.amount} date={tr.date} category={tr.category}/></li>
-            )) : <li>Пока не добавлено ни одной транзакции</li>}
+            {filteredTransactions.length !== 0 ? (
+              filteredTransactions.map((tr) => (
+                <li>
+                  <TransactionCard
+                    description={tr.description}
+                    amount={tr.amount}
+                    date={tr.date}
+                    category={tr.category}
+                    onEdit={() => {
+                      setIsShowModal(true);
+                      setCurrentTransaction(tr);
+                      setTypeTransaction("change");
+                    }}
+                    onDelete={() => {
+                      setIsShowModal(true);
+                      setCurrentTransaction(tr);
+                      setTypeTransaction("remove");
+                    }}
+                  />
+                </li>
+              ))
+            ) : (
+              <li>Пока не добавлено ни одной транзакции</li>
+            )}
           </ul>
         </div>
         {isShowModal && currentTransaction && (

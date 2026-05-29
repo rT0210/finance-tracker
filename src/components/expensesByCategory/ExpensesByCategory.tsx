@@ -52,7 +52,7 @@ const ExpensesByCategory = () => {
             key={category.name}
             className="flex justify-between items-center py-2 border-b last:border-0"
           >
-            <p className="w-1/4 text-gray-800 font-medium">{category.name}</p>
+            <p className="w-1/4 text-[12px] md:text-[16px] text-gray-800 font-medium">{category.name}</p>
             <p className="w-1/6 text-gray-600 text-right">
               {category.percent}%
             </p>

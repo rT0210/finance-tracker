@@ -7,15 +7,15 @@ const Footer = () => {
                 <nav>
                     <ul className="flex gap-4 text-[10px] md:text-[16px]">
                         <li>
-                            <Link to={""}>GitHUb</Link>
+                            <Link to={"https://github.com/rT0210"}>GitHUb</Link>
                         </li>
                         |
                         <li>
-                            <Link to={""}>Telegram</Link>
+                            <Link to={"#"}>Telegram</Link>
                         </li>
                         |
                         <li>
-                            <Link to={""}>VK</Link>
+                            <Link to={"https://vk.com/zaikanerealbnaya"}>VK</Link>
                         </li>
                     </ul>
                 </nav>

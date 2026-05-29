@@ -25,7 +25,7 @@ const Categories = () => {
     <div>
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex pt-4 justify-between mb-4">
-          <h2 className="text-2xl ">Категории</h2>
+          <h2 className="text-xl md:text-2xl">Категории</h2>
           <button
             className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition duration-200 shadow-sm"
             onClick={() => {
@@ -43,7 +43,7 @@ const Categories = () => {
               key={category.id}
               className="flex justify-between items-center bg-gray-50 p-3 rounded-lg shadow-sm"
             >
-              <span className="text-gray-800 font-medium">{category.name}</span>
+              <span className="text-gray-800 font-medium text-[12px]">{category.name}</span>
               <div className="space-x-2">
                 <button
                   onClick={() => {
@@ -53,7 +53,7 @@ const Categories = () => {
                   }}
                   className="px-3 py-1 bg-blue-100 text-blue-700 rounded-md hover:bg-blue-200 transition"
                 >
-                  Редактировать
+                  Изменить
                 </button>
                 <button
                   onClick={() => {

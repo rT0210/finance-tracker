@@ -27,13 +27,13 @@ const RecentTransactions = () => {
             key={elem.id}
             className="flex justify-between items-center border-b last:border-0 py-2"
           >
-            <p className="w-2/3">{elem.description}</p>
+            <p className="w-1/3 md:w-2/3">{elem.description}</p>
             <p
-              className={`w-1/6 ${elem.amount >= 0 ? "text-green-600" : "text-red-600"}`}
+              className={`w-1/3 md:w-1/6 ${elem.amount >= 0 ? "text-green-600" : "text-red-600"}`}
             >
               {formatAmount(elem.amount)}
             </p>
-            <p className="w-1/6 text-right">{formatDate(elem.date)}</p>
+            <p className="w-1/3 md:w-1/6 text-right">{formatDate(elem.date)}</p>
           </li>
         )) : <li>Пока нет ни одной операции...</li>}
       </ul>

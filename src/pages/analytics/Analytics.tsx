@@ -53,13 +53,13 @@ const Analytics = () => {
         } else {
           resultObj[item.date.slice(0, 7)] = item.amount;
         }
-      })
+      });
 
     return Object.entries(resultObj).map(([key, value]) => ({
       month: new Date(key + "-01").toLocaleString("ru-RU", { month: "short" }),
       amount: Math.abs(value),
     }));
-  })()
+  })();
   const transactionCategory: Record<string, number> = {};
   filterTransaction().forEach((transaction) => {
     if (transactionCategory[transaction.category]) {
@@ -74,42 +74,49 @@ const Analytics = () => {
       amount: Math.abs(amount),
     }),
   );
-  
+
   const totalExpense = data.reduce((acc, value) => acc + value.amount, 0);
 
   return (
     <div>
       <div className="max-w-7xl mx-auto pt-4">
-        <div className="text-center mb-6">
-          <p className="text-sm text-gray-500 uppercase tracking-wide">
-            Общая сумма расходов
-          </p>
-          <p className="text-3xl font-bold text-red-600">
-            {formatAmount(-totalExpense)}
-          </p>
-        </div>
-        <ResponsiveContainer width="100%" height={400}>
-          <PieChart>
-            <Pie
-              data={data}
-              dataKey="amount" // ← должно совпадать с ключом в данных
-              nameKey="category" // ← должно совпадать с ключом для названия
-              cx="50%"
-              cy="50%"
-              outerRadius={100}
-              label
-            >
-              {data.map((_, index) => (
-                <Cell
-                  key={`cell-${index}`}
-                  fill={COLORS[index % COLORS.length]}
-                />
-              ))}
-            </Pie>
-            <Tooltip />
-            <Legend />
-          </PieChart>
-        </ResponsiveContainer>
+        {data.length > 1 ? (
+          <>
+            <div className="text-center mb-6">
+              <p className="text-sm text-gray-500 uppercase tracking-wide">
+                Общая сумма расходов
+              </p>
+              <p className="text-3xl font-bold text-red-600">
+                {formatAmount(-totalExpense)}
+              </p>
+            </div>{" "}
+            <ResponsiveContainer width="100%" height={400}>
+              <PieChart>
+                <Pie
+                  data={data}
+                  dataKey="amount"
+                  nameKey="category"
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={100}
+                  label
+                >
+                  {data.map((_, index) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={COLORS[index % COLORS.length]}
+                    />
+                  ))}
+                </Pie>
+                <Tooltip />
+                <Legend />
+              </PieChart>
+            </ResponsiveContainer>
+          </>
+        ) : (
+          <p className="text-center">не достаточно данных</p>
+        )}
+
         <div className="mt-8">
           <h3 className="text-lg font-semibold text-gray-700 mb-4 text-center">
             Динамика расходов по месяцам
